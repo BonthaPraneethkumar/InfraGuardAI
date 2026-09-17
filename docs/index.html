@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07172f">
+<title>InfraGuard AI — Smart City Reporting</title>
+<style>
+:root{
+  --navy:#07172f;--navy2:#0b2748;--blue:#1788ff;--cyan:#4fd8e6;--bg:#eef5fc;
+  --card:#fff;--text:#12233f;--muted:#718198;--border:#dce8f4;--green:#1a9b67;
+  --amber:#d28a11;--red:#c94c54;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,#e7f1fb,#f7fbff);color:var(--text)}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.desktop-shell{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px}
+.phone{
+  width:min(100%,430px);min-height:900px;background:#f7fbff;border-radius:30px;overflow:hidden;
+  box-shadow:0 24px 70px rgba(12,44,82,.22);border:1px solid #d7e5f3;position:relative;
+}
+.topbar{height:76px;background:linear-gradient(135deg,#07172f,#0b2d54);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:grid;place-items:center;font-weight:900}
+.brand b{display:block;font-size:16px}.brand small{display:block;color:#9fb9d6;font-size:10px;margin-top:2px}
+.iconbtn{width:38px;height:38px;border:1px solid #23476e;background:#102d51;color:#fff;border-radius:12px}
+.screen{display:none;padding:18px 16px 92px;min-height:824px}.screen.active{display:block}
+.hero{background:linear-gradient(145deg,#0a2342,#0c3b67);color:white;border-radius:22px;padding:24px 20px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(79,216,230,.1);right:-80px;top:-60px}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;color:#58d8e8}
+.hero h1{font-size:28px;line-height:1.08;margin:9px 0 10px;max-width:340px}.hero p{font-size:13px;line-height:1.55;color:#bfd1e6;margin:0 0 18px}
+.primary{border:0;border-radius:13px;padding:13px 16px;background:linear-gradient(135deg,#1687ff,#42bcd9);color:#fff;font-weight:800;box-shadow:0 8px 20px rgba(22,135,255,.25)}
+.secondary{border:1px solid #c9dff4;border-radius:13px;padding:12px 14px;background:#edf6ff;color:#1468b8;font-weight:750}
+.trust{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;color:#9fc2dd;font-size:10px}
+.section-title{display:flex;align-items:end;justify-content:space-between;margin:22px 2px 12px}.section-title h2{font-size:18px;margin:0}.section-title button{border:0;background:none;color:#1675d4;font-size:12px;font-weight:750}
+.cards{display:flex;flex-direction:column;gap:10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:17px;padding:14px;box-shadow:0 5px 16px rgba(35,71,112,.05)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.issue{display:flex;align-items:center;gap:11px}.issue-icon{width:42px;height:42px;border-radius:12px;background:#eef6ff;display:grid;place-items:center;font-size:20px}
+.card h3{font-size:14px;margin:0 0 3px}.meta{font-size:11px;color:var(--muted)}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}.badge{font-size:9px;font-weight:800;padding:5px 8px;border-radius:999px;background:#edf3fa;color:#566d87}
+.resolved{background:#e9f8f1;color:#187a54}.progress{background:#eaf2ff;color:#326aba}.registered{background:#fff5dc;color:#9d6810}.high{background:#ffeded;color:#b9464e}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.quick{background:#edf5fd;border-radius:16px;padding:14px}.quick strong{display:block;font-size:13px}.quick small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.page-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:15px}.back{width:38px;height:38px;border-radius:11px;border:1px solid var(--border);background:#fff}.page-head h1{font-size:23px;margin:2px 0 3px}.page-head p{font-size:11px;color:var(--muted);margin:0}
+.step{background:#fff;border:1px solid var(--border);border-radius:17px;padding:15px;margin-bottom:11px}.step-title{display:flex;gap:10px}.num{width:30px;height:30px;border-radius:10px;background:#e6f2ff;color:#176dc0;display:grid;place-items:center;font-weight:900;font-size:12px;flex:none}.step h2{font-size:15px;margin:2px 0 2px}.step p{font-size:11px;color:var(--muted);margin:0;line-height:1.45}
+.upload{margin-top:13px;border:1.5px dashed #9fbfe1;background:#f5faff;border-radius:14px;padding:22px 12px;text-align:center}.upload b{display:block;color:#216aa9;font-size:12px}.upload small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.statusbox{margin-top:10px;border-radius:10px;background:#eaf8f1;color:#197753;padding:9px 10px;font-size:10px}
+textarea,input{width:100%;border:1px solid #cddbea;border-radius:11px;padding:11px 12px;background:#fff;margin-top:9px;outline:none;font-size:12px}
+.ai-result{margin-top:12px;background:#f3f8fe;border:1px solid #d8e7f5;border-radius:13px;padding:12px}.ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.ai-cell{background:white;border:1px solid var(--border);border-radius:9px;padding:8px}.ai-cell small{display:block;color:var(--muted);font-size:8px;margin-bottom:3px}.ai-cell b{font-size:10px}
+.timeline{display:flex;align-items:center;gap:4px;margin-top:12px}.dot{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#dce9f6;color:#55708b;font-size:9px;font-weight:800}.dot.done{background:#dff5eb;color:#19805a}.line{height:3px;background:#dfe8f2;flex:1}.line.done{background:#93d8be}
+.bottomnav{position:absolute;left:10px;right:10px;bottom:10px;background:#07172f;border-radius:19px;padding:7px;display:flex;justify-content:space-around;box-shadow:0 14px 34px rgba(7,23,47,.25)}
+.bottomnav button{border:0;background:transparent;color:#8fa8c2;font-size:9px;font-weight:700;flex:1;padding:7px 2px;border-radius:12px}.bottomnav button span{display:block;font-size:17px;margin-bottom:2px}.bottomnav button.active{background:#102e53;color:#fff}.bottomnav .report{background:linear-gradient(135deg,#1687ff,#38bedb);color:#fff}
+.toast{position:absolute;left:22px;right:22px;bottom:82px;background:#10233f;color:#fff;border-radius:13px;padding:11px 13px;font-size:11px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:none}
+.officer-stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:13px}.stat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:11px}.stat small{font-size:9px;color:var(--muted);display:block}.stat b{font-size:20px;display:block;margin-top:4px}
+@media(max-width:480px){.desktop-shell{padding:0}.phone{width:100%;min-height:100vh;border:0;border-radius:0;box-shadow:none}.screen{min-height:calc(100vh - 76px)}}
+</style>
+</head>
+<body>
+<div class="desktop-shell">
+  <div class="phone">
+    <header class="topbar">
+      <div class="brand"><div class="logo">IG</div><div><b>InfraGuard AI</b><small>Smart Infrastructure Response</small></div></div>
+      <button class="iconbtn" id="notifyBtn">🔔</button>
+    </header>
+
+    <main>
+      <section class="screen active" id="home">
+        <div class="hero">
+          <span class="eyebrow">AI-ASSISTED CIVIC RESPONSE</span>
+          <h1>Report city problems in seconds.</h1>
+          <p>Capture evidence, speak naturally and let InfraGuard AI help route the issue to the right department.</p>
+          <button class="primary" data-go="report">＋ Report an Issue</button>
+          <div class="trust"><span>🔐 Privacy first</span><span>🎙️ Voice AI</span><span>👤 Human officer</span></div>
+        </div>
+
+        <div class="section-title"><h2>Recent Reports</h2><button data-go="reports">View all →</button></div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-top"><div class="issue"><div class="issue-icon">🚗</div><div><h3>Traffic / Parking</h3><div class="meta">Near Commerzone, Pune · 1 hour ago</div></div></div><span class="badge resolved">Resolved</span></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><div class="issue"><div class="issue-icon">🗑️</div><div><h3>Garbage Waste</h3><div class="meta">Viman Nagar, Pune · 15 minutes ago</div></div></div><span class="badge resolved">Resolved</span></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><div class="issue"><div class="issue-icon">💡</div><div><h3>Streetlight</h3><div class="meta">Bengaluru, Karnataka · 15 minutes ago</div></div></div><span class="badge progress">In Progress</span></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><div class="issue"><div class="issue-icon">🛣️</div><div><h3>Road Pothole</h3><div class="meta">Tambaram, Chennai · 22 minutes ago</div></div></div><span class="badge resolved">Resolved</span></div>
+          </article>
+        </div>
+
+        <div class="quick-grid">
+          <div class="quick"><strong>🔐 Privacy Gate</strong><small>Checks evidence before AI</small></div>
+          <div class="quick"><strong>🧠 Smart Routing</strong><small>Issue → severity → department</small></div>
+          <div class="quick"><strong>🏢 Officer Workflow</strong><small>Human review and action</small></div>
+          <div class="quick"><strong>📊 Analytics</strong><small>Operational visibility</small></div>
+        </div>
+      </section>
+
+      <section class="screen" id="report">
+        <div class="page-head"><button class="back" data-go="home">←</button><div><h1>Report an Issue</h1><p>Citizen reporting flow</p></div></div>
+        <div class="step"><div class="step-title"><span class="num">1</span><div><h2>Add infrastructure photo</h2><p>Privacy screening happens before any AI processing.</p></div></div><div class="upload"><b>📷 Take Photo / Choose Image</b><small>Demo interface</small></div><div class="statusbox">✅ Privacy check ready · images are not sent to Sarvam</div></div>
+        <div class="step"><div class="step-title"><span class="num">2</span><div><h2>Describe the problem</h2><p>Speak naturally or type the complaint.</p></div></div><textarea id="demoText">There is a large pothole in the middle of the road and vehicles are swerving to avoid it.</textarea><button class="secondary" id="voiceDemo" style="margin-top:9px">🎙️ Simulate Voice → Text</button></div>
+        <div class="step"><div class="step-title"><span class="num">3</span><div><h2>Add location</h2><p>GPS and a recognizable location label.</p></div></div><input value="Hitech City, Hyderabad"></div>
+        <div class="step"><div class="step-title"><span class="num">4</span><div><h2>AI triage</h2><p>Sarvam AI assists classification. Human officers remain in control.</p></div></div><button class="primary" id="analyzeDemo" style="margin-top:12px">🧠 Analyze Complaint</button><div class="ai-result" id="aiDemo" style="display:none"><div class="ai-grid"><div class="ai-cell"><small>ISSUE</small><b>Road Pothole</b></div><div class="ai-cell"><small>SEVERITY</small><b>High</b></div><div class="ai-cell"><small>DEPARTMENT</small><b>Roads</b></div></div><p style="font-size:10px;color:#6f8198;margin:9px 0 0">Large pothole creates a traffic safety risk. Confidence: 94%</p></div></div>
+        <button class="primary" id="submitDemo" style="width:100%;padding:14px">Submit Complaint</button>
+      </section>
+
+      <section class="screen" id="reports">
+        <div class="page-head"><button class="back" data-go="home">←</button><div><h1>My Reports</h1><p>Track your complaint from registration to resolution.</p></div></div>
+        <article class="card">
+          <div class="card-top"><div class="issue"><div class="issue-icon">🛣️</div><div><h3>Road Pothole</h3><div class="meta">IG-260916-A4F2C</div></div></div><span class="badge progress">In Progress</span></div>
+          <div class="badges"><span class="badge high">High</span><span class="badge">Roads Department</span></div>
+          <p class="meta" style="margin-top:10px">Large pothole creating a road-safety risk near Hitech City, Hyderabad.</p>
+          <div class="timeline"><div class="dot done">✓</div><div class="line done"></div><div class="dot done">✓</div><div class="line done"></div><div class="dot done">✓</div><div class="line"></div><div class="dot">4</div></div>
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#708096;margin-top:5px"><span>Registered</span><span>Assigned</span><span>In Progress</span><span>Resolved</span></div>
+        </article>
+        <article class="card" style="margin-top:10px">
+          <div class="card-top"><div class="issue"><div class="issue-icon">💧</div><div><h3>Water Leak</h3><div class="meta">IG-260916-C2E1A</div></div></div><span class="badge registered">Registered</span></div>
+          <div class="badges"><span class="badge">Medium</span><span class="badge">Water & Utilities</span></div>
+        </article>
+      </section>
+
+      <section class="screen" id="analytics">
+        <div class="page-head"><button class="back" data-go="home">←</button><div><h1>Analytics</h1><p>Operational intelligence</p></div></div>
+        <div class="officer-stat"><div class="stat"><small>Total</small><b>128</b></div><div class="stat"><small>Resolved</small><b>84</b></div><div class="stat"><small>High</small><b>19</b></div></div>
+        <div class="card"><h3 style="margin-top:0">Cases by Department</h3>
+          <div style="margin-top:15px">
+            <div class="meta">Roads Department · 42</div><div style="height:9px;background:#e9f0f7;border-radius:99px;margin:5px 0 12px"><div style="width:82%;height:100%;background:linear-gradient(90deg,#1788ff,#4fd8e6);border-radius:99px"></div></div>
+            <div class="meta">Electrical Department · 31</div><div style="height:9px;background:#e9f0f7;border-radius:99px;margin:5px 0 12px"><div style="width:61%;height:100%;background:linear-gradient(90deg,#1788ff,#4fd8e6);border-radius:99px"></div></div>
+            <div class="meta">Municipal Sanitation · 28</div><div style="height:9px;background:#e9f0f7;border-radius:99px;margin:5px 0 12px"><div style="width:54%;height:100%;background:linear-gradient(90deg,#1788ff,#4fd8e6);border-radius:99px"></div></div>
+            <div class="meta">Water & Utilities · 27</div><div style="height:9px;background:#e9f0f7;border-radius:99px;margin:5px 0 0"><div style="width:52%;height:100%;background:linear-gradient(90deg,#1788ff,#4fd8e6);border-radius:99px"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="officer">
+        <div class="page-head"><button class="back" data-go="home">←</button><div><h1>Officer Dashboard</h1><p>AI assists. Human officers decide.</p></div></div>
+        <div class="officer-stat"><div class="stat"><small>Open</small><b>44</b></div><div class="stat"><small>High</small><b>19</b></div><div class="stat"><small>Resolved</small><b>84</b></div></div>
+        <article class="card">
+          <div class="card-top"><div class="issue"><div class="issue-icon">🛣️</div><div><h3>Road Pothole</h3><div class="meta">IG-260916-A4F2C</div></div></div><span class="badge high">High</span></div>
+          <p class="meta" style="line-height:1.55;margin-top:10px"><b>AI summary:</b> Large pothole creating road-safety risk.<br><b>Department:</b> Roads Department<br><b>Location:</b> Hitech City, Hyderabad</p>
+          <button class="secondary" id="advanceCase" style="width:100%;margin-top:10px">Move to In Progress</button>
+          <div class="statusbox" id="officerUpdate" style="display:none">✅ Officer update saved. Citizen timeline updated.</div>
+        </article>
+      </section>
+    </main>
+
+    <nav class="bottomnav">
+      <button class="active" data-go="home"><span>⌂</span>Home</button>
+      <button data-go="reports"><span>▤</span>My Reports</button>
+      <button class="report" data-go="report"><span>＋</span>Report</button>
+      <button data-go="analytics"><span>▥</span>Analytics</button>
+      <button data-go="officer"><span>♙</span>Officer</button>
+    </nav>
+    <div class="toast" id="toast">Demo action completed.</div>
+  </div>
+</div>
+<script>
+const screens=[...document.querySelectorAll(".screen")];
+const nav=[...document.querySelectorAll(".bottomnav button")];
+function go(name){
+  screens.forEach(s=>s.classList.toggle("active",s.id===name));
+  nav.forEach(b=>b.classList.toggle("active",b.dataset.go===name));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800)}
+document.getElementById("notifyBtn").addEventListener("click",()=>toast("No new notifications in this demo."));
+document.getElementById("voiceDemo").addEventListener("click",()=>toast("Voice converted to text using Sarvam Saaras (demo)."));
+document.getElementById("analyzeDemo").addEventListener("click",()=>{document.getElementById("aiDemo").style.display="block";toast("AI triage complete.");});
+document.getElementById("submitDemo").addEventListener("click",()=>{toast("Complaint registered: IG-260916-A4F2C");setTimeout(()=>go("reports"),850)});
+document.getElementById("advanceCase").addEventListener("click",()=>{document.getElementById("officerUpdate").style.display="block";document.getElementById("advanceCase").textContent="✓ In Progress";toast("Officer status updated.");});
+</script>
+</body>
+</html>
